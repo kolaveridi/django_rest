@@ -3,9 +3,11 @@ from .models import Customer,Profession,Document,DataSheet
 
 # Serializers define the API representation.
 class CustomerSerializer(serializers.ModelSerializer):
+    print('xaxxaxxa',Customer)
     class Meta:
         model = Customer
         fields = ('id','address','professions','data_sheet')
+       
 
 
 

@@ -20,7 +20,7 @@ from core.views import CustomerViewSet, ProfessionViewSet,DataSheetViewSet ,Docu
 
 
 router = routers.DefaultRouter()
-router.register(r'customers', CustomerViewSet)
+router.register(r'customers', CustomerViewSet,base_name="customers")
 router.register(r'professions',ProfessionViewSet)
 router.register(r'data-sheet', DataSheetViewSet)
 router.register(r'documents', DocumentViewSet)
