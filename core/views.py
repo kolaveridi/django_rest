@@ -1,9 +1,10 @@
-from django.shortcuts import render
-from rest_framework.response import Response
 
+from rest_framework.response import Response
 from .models import Customer,Profession,DataSheet,Document
 from .serializers import CustomerSerializer,ProfessionaSerializer,DataSheetSerializer,DocumentSerializer
 from rest_framework import  viewsets
+from django.http.response import HttpResponseNotAllowed
+
 
 # Create your views here.
 class CustomerViewSet(viewsets.ModelViewSet):
@@ -21,7 +22,14 @@ class CustomerViewSet(viewsets.ModelViewSet):
         serializer=CustomerSerializer(customers,many=True)
         return Response(serializer.data)
     
-    
+    def retrieve(self, request, *args, **kwargs):
+        """obj=self.get_object()
+        print('obj is ',obj)
+        serializer = CustomerSerializer(obj)
+        print('serializer.data is ', serializer.data)
+        return Response(serializer.data)"""
+        return HttpResponseNotAllowed('Not Allowed')
+
     
     
 class ProfessionViewSet(viewsets.ModelViewSet):
