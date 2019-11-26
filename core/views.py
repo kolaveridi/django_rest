@@ -30,6 +30,25 @@ class CustomerViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)"""
         return HttpResponseNotAllowed('Not Allowed')
 
+
+    def create(self, request, *args, **kwargs):
+        data =request.data
+        print('request', request)
+        customer=Customer.objects.create(
+            name=data['name'],
+            address=data['address'],
+            data_sheet_id=data['data_sheet']
+        )
+        print('data', data)
+        profession=Profession.objects.get(id=data['profession'])
+        customer.professions.add(profession)
+        customer.save()
+
+        serializer =CustomerSerializer(customer)
+        return Response(serializer.data)
+
+
+
     
     
 class ProfessionViewSet(viewsets.ModelViewSet):
