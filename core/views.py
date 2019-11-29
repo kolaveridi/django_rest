@@ -12,13 +12,24 @@ class CustomerViewSet(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
 
     def get_queryset(self):
+        import pdb;pdb.set_trace()
         active_customers = Customer.objects.filter(active=True)
         for x in range(len(active_customers)):
             print(active_customers[x])
         return active_customers
 
     def list(self, request, *args, **kwargs):
+        import pdb;
+        pdb.set_trace()
         customers = Customer.objects.all()
+        id=self.request.query_params.get('id',None)
+        status=True if self.request.query_params.get('active') == 'True' else False
+        print("status",status)
+        if id:
+            customers = Customer.objects.filter(id=id, active=status)
+        else:
+            customers = Customer.objects.filter(active=status)
+
         serializer = CustomerSerializer(customers, many=True)
         return Response(serializer.data)
 
@@ -90,7 +101,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
     @action(detail=False)
     def deactivate_all(self,request,*args,**kwargs):
-        import pdb;pdb.set_trace()
+        #import pdb;pdb.set_trace()
         customer=Customer.objects.all()
         customer.update(active=False)
         serializer=CustomerSerializer(customer,many=True)
