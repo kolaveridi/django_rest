@@ -1,15 +1,23 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .models import Customer, Profession, DataSheet, Document
 from .serializers import CustomerSerializer, ProfessionaSerializer, DataSheetSerializer, DocumentSerializer
 from rest_framework import viewsets
+
 from django.http.response import HttpResponseNotAllowed
 from django.http.response import HttpResponseNotAllowed
+from rest_framework.filters import SearchFilter
 
 
 # Create your views here.
 class CustomerViewSet(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter)
+    filter_fields = ('name',)
+    search_fields = ('address', 'name')
+
+    #import pdb;pdb.set_trace()
 
     def get_queryset(self):
         #import pdb;pdb.set_trace()
@@ -17,19 +25,19 @@ class CustomerViewSet(viewsets.ModelViewSet):
         # for x in range(len(active_customers)):
         #     print(active_customers[x])
         # return active_customers
+
         address = self.request.query_params.get('address', None)
-        #import pdb;pdb.set_trace()
         if self.request.query_params.get('active') == 'False':
-            status=False
+            status = False
         else:
-            status=True
+            status = True
 
         if address:
-            print("status",status)
-            customers=Customer.objects.filter(address_icontains=address ,active=status)
+            print("status", status)
+            customers = Customer.objects.filter(address_icontains=address, active=status)
         else:
             print("status", status)
-            customers=Customer.objects.filter(active=False)
+            customers = Customer.objects.filter(active=False)
 
         # serializer = CustomerSerializer(customers, many=True)
         # return Response(serializer.data)
@@ -130,13 +138,12 @@ class CustomerViewSet(viewsets.ModelViewSet):
         print('data inside is ', serializer.data)
         return Response(serializer.data)
 
-
     @action(detail=False)
-    def deactivate_all(self,request,*args,**kwargs):
-        #import pdb;pdb.set_trace()
-        customer=Customer.objects.all()
+    def deactivate_all(self, request, *args, **kwargs):
+        # import pdb;pdb.set_trace()
+        customer = Customer.objects.all()
         customer.update(active=False)
-        serializer=CustomerSerializer(customer,many=True)
+        serializer = CustomerSerializer(customer, many=True)
         return Response(serializer.data)
 
     @action(detail=False)
@@ -146,12 +153,12 @@ class CustomerViewSet(viewsets.ModelViewSet):
         serializer = CustomerSerializer(customer, many=True)
         return Response(serializer.data)
 
-    @action(detail=False,methods=['POST'])
-    def change_status(self,request,*args,**kwargs):
-        #import pdb;pdb.set_trace()
-        status=request.data['active']
-        customers=Customer.objects.all()
-        print('customers',customers)
+    @action(detail=False, methods=['POST'])
+    def change_status(self, request, *args, **kwargs):
+        # import pdb;pdb.set_trace()
+        status = request.data['active']
+        customers = Customer.objects.all()
+        print('customers', customers)
         for x in range(len(customers)):
             print(customers[x].active)
         customers.update(active=status)
