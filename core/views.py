@@ -15,7 +15,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter)
     filter_fields = ('name',)
-    search_fields = ('address', 'name')
+    search_fields = ('address', 'name',)
 
     #import pdb;pdb.set_trace()
 

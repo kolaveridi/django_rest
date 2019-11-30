@@ -1,32 +1,35 @@
 from rest_framework import serializers
-from .models import Customer,Profession,Document,DataSheet
+from .models import Customer, Profession, Document, DataSheet
+
 
 # Serializers define the API representation.
 class CustomerSerializer(serializers.ModelSerializer):
-    print('xaxxaxxa',Customer)
+    print('xaxxaxxa', Customer)
+
     class Meta:
         model = Customer
-        fields = ('id', 'address', 'professions', 'data_sheet','active')
-       
+        fields = ('id', 'address', 'professions', 'data_sheet', 'active', 'status_message')
+
 
 class ProfessionaSerializer(serializers.ModelSerializer):
     class Meta:
-        model=Profession   
-        fields=(
+        model = Profession
+        fields = (
             'id', 'description'
-        )     
+        )
 
 
 class DataSheetSerializer(serializers.ModelSerializer):
     class Meta:
-        model= DataSheet
-        fields=(
+        model = DataSheet
+        fields = (
             'id', 'historical_data', 'description'
-        )  
+        )
+
 
 class DocumentSerializer(serializers.ModelSerializer):
     class Meta:
-        model=Document
-        fields=(
+        model = Document
+        fields = (
             'id', 'dtype', 'doc_number', 'customer'
-        )            
+        )
