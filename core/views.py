@@ -39,39 +39,41 @@ class CustomerViewSet(viewsets.ModelViewSet):
             print("status", status)
             customers = Customer.objects.filter(active=False)
 
-        # serializer = CustomerSerializer(customers, many=True)
-        # return Response(serializer.data)
+        serializer = CustomerSerializer(customers, many=True)
+        return Response(serializer.data)
         return customers
 
-    # def list(self, request, *args, **kwargs):
-    #     # import pdb;
-    #     # pdb.set_trace()
-    #
-    #
-    #     # customers = Customer.objects.all()
-    #     # id=self.request.query_params.get('id',None)
-    #     # status=True if self.request.query_params.get('active') == 'True' else False
-    #     # print("status",status)
-    #     # if id:
-    #     #     customers = Customer.objects.filter(id=id, active=status)
-    #     # else:
-    #     #     customers = Customer.objects.filter(active=status)
-    #
-    #     address=self.request.query_params.get('address',None)
-    #     print("address", address)
-    #     import pdb;pdb.set_trace()
-    #     if self.request.query_params.get('active') == 'False':
-    #         status=False
-    #     else:
-    #         status=True
-    #
-    #     if address:
-    #         customers=Customer.objects.filter(address_icontains=address ,active=status)
-    #     else:
-    #         customers=Customer.objects.filter(active=status)
-    #
-    #     serializer = CustomerSerializer(customers, many=True)
-    #     return Response(serializer.data)
+
+    def list(self, request, *args, **kwargs):
+        # import pdb;
+        # pdb.set_trace()
+
+
+        # customers = Customer.objects.all()
+        # id=self.request.query_params.get('id',None)
+        # status=True if self.request.query_params.get('active') == 'True' else False
+        # print("status",status)
+        # if id:
+        #     customers = Customer.objects.filter(id=id, active=status)
+        # else:
+        #     customers = Customer.objects.filter(active=status)
+
+        address=self.request.query_params.get('address',None)
+        print("address", address)
+        #import pdb;pdb.set_trace()
+        if self.request.query_params.get('active') == 'False':
+            status=False
+        else:
+            status=True
+
+        if address:
+            customers=Customer.objects.filter(address_icontains=address ,active=status)
+        else:
+            customers=Customer.objects.filter(active=status)
+
+        serializer = CustomerSerializer(customers, many=True)
+        #import pdb;pdb.set_trace()
+        return Response(serializer.data)
 
     def retrieve(self, request, *args, **kwargs):
         """obj=self.get_object()

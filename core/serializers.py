@@ -5,10 +5,21 @@ from .models import Customer, Profession, Document, DataSheet
 # Serializers define the API representation.
 class CustomerSerializer(serializers.ModelSerializer):
     print('xaxxaxxa', Customer)
+    num_professions = serializers.SerializerMethodField()
 
     class Meta:
         model = Customer
-        fields = ('id', 'address', 'professions', 'data_sheet', 'active', 'status_message')
+        fields = ('id',
+                  'address',
+                  'professions',
+                  'data_sheet',
+                  'active',
+                  'status_message',
+                  'num_professions'
+                  )
+
+    def get_num_professions(self, obj):
+        return obj.num_professions()
 
 
 class ProfessionaSerializer(serializers.ModelSerializer):
